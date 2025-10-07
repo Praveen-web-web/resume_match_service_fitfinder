@@ -139,4 +139,3 @@ Final-year CSE | Backend & ML Systems Architect
 
 ---
 
-Let me know if you'd like this split into sections for GitHub Pages, or if you want badges, diagrams, or CI/CD hooks added.

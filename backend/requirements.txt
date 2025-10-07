@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+databases
+pydantic
+email-validator
+aiosmtplib
+python-multipart
+PyPDF2
+python-docx
+spacy
+pymysql

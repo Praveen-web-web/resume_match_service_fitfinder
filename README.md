@@ -22,12 +22,9 @@ A modular, production-grade microservice for parsing resumes and matching them t
 
 | Layer         | Technology                     |
 |---------------|--------------------------------|
-| Language      | Java 21                        |
-| Framework     | Spring Boot 3.x                |
-| API Auth      | JWT                            |
 | Database      | MySQL                          |
 | NLP Layer     | FastAPI (Python) via REST      |
-| Frontend      | React (optional integration)   |
+| Frontend      | React , tailwindcss            |
 
 ---
 
@@ -39,10 +36,19 @@ git clone https://github.com/Praveen-web-web/resume_match_service_fitfinder.git
 cd resume_match_service_fitfinder
 
 # Backend setup
-./gradlew build
+.create an virtual environment run : python -m venv resume_env
+.activate the virtual environment  run : resume_env/Scripts/activate (you will see in the green(colour) resume_env on the starting of the directory path in the terminal (if activated))
+.pip install -r requirements.txt (make sure requirements.txt exist with required(libraries)) in the root directory
+.uvicorn main:app --reload (make sure the uvicorn is in requirements.txt and main.py should be in root directory) 
 
-# Run locally
-./gradlew bootRun
+
+# Frontend Setup
+.run : npm create vite@latest (and choose the project directory name , react , Javascript)
+.cd project directory name
+.run : npm install (if node modules not present)
+.run : npm install -D tailwindcss postcss autoprefixer
+.run : npx tailwindcss init -p
+.run : npm run dev
 ```
 
 ---
@@ -82,25 +88,72 @@ Accepts parsed resume + job description or TRF schema, returns match score and r
 
 ```
 resume_match_service_fitfinder/
-├── src/
-│   ├── main/
-│   │   ├── java/com/fitfinder/resumematch/
-│   │   │   ├── controller/
-│   │   │   ├── service/
-│   │   │   ├── model/
-│   │   │   └── config/
-│   └── test/
-├── config/
-│   └── parser-rules.yml
-├── README.md
-└── build.gradle
+│
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── endpoints/
+│   │   │   │   ├── candidates.py
+│   │   │   │   ├── jobs.py
+│   │   │   │   ├── matches.py
+│   │   │   │   ├── notifications.py
+│   │   │   │   └── assessments.py
+│   │   │   └── _init_.py
+│   │   ├── core/
+│   │   │   ├── config.py
+│   │   │   ├── email_service.py
+│   │   │   ├── parsing.py        # resume parsing core logic
+│   │   │   ├── scoring.py        # matching and scoring engine
+│   │   │   └── _init_.py
+│   │   ├── db/
+│   │   │   ├── models.py
+│   │   │   ├── repository.py
+│   │   │   ├── schemas.py         # Pydantic schemas for validation
+│   │   │   └── session.py         # DB session and connection
+│   │   ├── main.py                # FastAPI app entrypoint
+│   │   └── _init_.py
+│   ├── Dockerfile               # containerize backend
+│   ├── requirements.txt
+│   └── README.md
+│
+├── frontend/
+│   ├── public/
+│   │   ├── index.html
+│   │   └── favicon.ico
+│   ├── src/
+│   │   ├── assets/               # images, icons etc.
+│   │   ├── components/
+│   │   │   ├── CandidateCard.jsx
+│   │   │   ├── JobCard.jsx
+│   │   │   ├── NotificationToast.jsx
+│   │   │   └── AssessmentModal.jsx
+│   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── CandidateUpload.jsx
+│   │   │   ├── JobCreation.jsx
+│   │   │   ├── CandidateRanking.jsx
+│   │   │   └── AssessmentStatus.jsx
+│   │   ├── services/
+│   │   │   ├── api.js          # axios instance for API calls
+│   │   │   └── emailService.js
+│   │   ├── styles/
+│   │   │   └── tailwind.css
+│   │   ├── App.jsx
+│   │   ├── index.js
+│   │   └── tailwind.config.js
+│   ├── package.json
+│   ├── postcss.config.js
+│   └── README.md
+│
+├── docker-compose.yml          # orchestration of backend + frontend + DB
+└── README.md
 ```
 
 ---
 
 ## 🔐 Security & Legal
 
-- All endpoints protected via JWT.
+- All endpoints protected via JWT. (not implemented as of now)
 - Resume data processed in-memory; no persistent storage unless explicitly configured.
 - Licensed under MIT. Attribution required for derivative works.
 
@@ -122,7 +175,7 @@ resume_match_service_fitfinder/
 Pull requests welcome. Please ensure:
 - Code is modular and test-covered
 - Configs are documented
-- No unused variables or incomplete modules
+- No unused variables or incomplete modules(except the candidate ranking logic)
 
 ---
 
@@ -130,7 +183,7 @@ Pull requests welcome. Please ensure:
 
 **Praveen Baghel**  
 Final-year CSE | Backend & ML Systems Architect  
-📍 Etmadpur, Agra, India  
+📍 T.Y.C, Agra-282006, India  
 📫 [LinkedIn](https://www.linkedin.com/in/praveenbaghel5573) | [GitHub](https://github.com/Praveen-web-web)
 
 ---
@@ -138,4 +191,5 @@ Final-year CSE | Backend & ML Systems Architect
 ```
 
 ---
+
 
